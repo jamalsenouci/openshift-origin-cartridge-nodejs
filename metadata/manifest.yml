@@ -11,15 +11,16 @@ Versions:
 - '0.6'
 License: MIT License
 License-Url: https://raw.github.com/joyent/node/v0.10/LICENSE
-Vendor: www.nodejs.org
-Website: http://www.nodejs.org/
+Vendor: http://ryanjarvinen.com
+Website: https://github.com/ryanj/openshift-origin-cartridge-nodejs
+Source-Url: https://github.com/ryanj/openshift-origin-cartridge-nodejs.git
 Cartridge-Version: 0.0.20
 Compatible-Versions:
 - 0.0.15
 - 0.0.16
 - 0.0.17
 - 0.0.19
-Cartridge-Vendor: redhat
+Cartridge-Vendor: external
 Categories:
 - service
 - javascript
