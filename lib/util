@@ -3,6 +3,12 @@
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
+# Wrapper for the OpenShift Ruby SDK
+#
+function ruby_sdk() {
+  oo-ruby -I/usr/lib/openshift/cartridge_sdk -rruby/sdk -e "include OpenShift::CartridgeSdk; puts $1"
+}
+
 function wait_for_stop {
   pid=$1
   for i in {1..300}
@@ -96,7 +102,23 @@ function link_global_modules {
 # Check if the 'use_npm' marker is present
 #
 function use_npm() {
-  [ -f ${OPENSHIFT_REPO_DIR}.openshift/markers/use_npm ]
+  [ -f ${OPENSHIFT_REPO_DIR}.openshift/markers/use_npm ] 
+}
+
+# Check if the USE_NPM env var is set, or if the 'use_npm' marker is present
+function use_npm_enabled() {
+  [ -n "${USE_NPM+x}" ] || use_npm 
+}
+
+# Check if the $HOT_DEPLOY env var is set, or if the related marker is present
+function hot_deploy_enabled_for_latest_deployment() {
+  enabled=$(ruby_sdk 'latest_deployment_metadata.hot_deploy')
+
+  if [ "$enabled" == "true" ] || [ -n "${HOT_DEPLOY+x}" ]; then
+    return 0
+  else
+    return 1
+  fi
 }
 
 # This is the full path for supervisor in its SCL context
